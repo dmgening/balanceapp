@@ -1,0 +1,11 @@
+ipython
+ipdb
+
+pytest
+pytest-django
+
+coverage
+pytest-cov
+
+factory-boy
+mock
