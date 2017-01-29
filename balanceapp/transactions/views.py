@@ -14,7 +14,7 @@ class RequestError(Exception):
     def __init__(self, status_code, *args, **kwargs):
         self.status_code = status_code
         self.payload = kwargs or args
-        if args:
+        if args and kwargs:
             self.payload['__other__'] = args
 
 
@@ -77,7 +77,8 @@ class GenericAPIView(View):
                                                         **kwargs)
         except RequestError as exc:
             return HttpResponse(json.dumps({'errors': exc.payload}),
-                                status=exc.status_code)
+                                status=exc.status_code,
+                                content_type='application/json')
 
 
 class AccountView(GenericAPIView):
@@ -126,8 +127,8 @@ class TransactionView(GenericAPIView):
 
     def get(self, request, pk):
         if pk is None:
-            raise RequestError('Cant list transaction')
+            raise RequestError(400, 'Cant list transaction')
         return super(TransactionView, self).get(request, pk)
 
     def patch(self, request, pk):
-        raise RequestError('Cant patch transaction')
+        raise RequestError(400, 'Cant patch transaction')
