@@ -10,8 +10,19 @@ class Account(models.Model):
     """ Account holding transactions
     """
 
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=200)
 
+    @classmethod
+    def serializer_hook(cls, obj, data):
+        """ Pluggable hook to extend generic django serialization.
+            Adds balance to field list
+        """
+        current_balance = obj.balance_set.order_by('date').last()
+        if not current_balance:
+            data['fields']['balance'] = 0
+        else:
+            data['fields']['balance'] = current_balance.amount
+        return data
 
 @architect.install('partition', type='range', subtype='date',
                    constraint='day', column='date')

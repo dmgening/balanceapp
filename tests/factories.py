@@ -1,19 +1,19 @@
 import factory
 import factory.fuzzy
 
-from transactions import models
+from balanceapp.transactions.models import Account, Transaction
 
 
-class Account(factory.django.DjangoModelFactory):
+class AccountFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('company')
 
     class Meta:
-        model = models.Account
+        model = Account
 
 
-class Transaction(factory.django.DjangoModelFactory):
+class TransactionFactory(factory.django.DjangoModelFactory):
     description = factory.Faker('company')
     amount = factory.fuzzy.FuzzyInteger(-1E4, 1E4)
 
     class Meta:
-        model = models.Transaction
+        model = Transaction

@@ -16,6 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from balanceapp.transactions.views import TransactionView, AccountView
+
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    # url(r'^admin/', admin.site.urls),
+    url(r'^api/0.1/accounts(?:/(?P<pk>[0-9]+))?$',
+        AccountView.as_view(), name='account_view'),
+    url(r'^api/0.1/accounts/(?P<pk>[0-9]+)/balance',
+        AccountView.balance, name='account_balance_view'),
+    url(r'^api/0.1/transactions(?:/(?P<pk>[0-9]+))?$',
+        TransactionView.as_view(), name='transaction_view')
 ]
