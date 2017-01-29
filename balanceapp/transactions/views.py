@@ -17,6 +17,7 @@ class RequestError(Exception):
         if args:
             self.payload['__other__'] = args
 
+
 class GenericAPIView(View):
     model = None
     form = None
@@ -122,6 +123,11 @@ class AccountView(GenericAPIView):
 class TransactionView(GenericAPIView):
     model = models.Transaction
     form = forms.TransactionForm
+
+    def get(self, request, pk):
+        if pk is None:
+            raise RequestError('Cant list transaction')
+        return super(TransactionView, self).get(request, pk)
 
     def patch(self, request, pk):
         raise RequestError('Cant patch transaction')
