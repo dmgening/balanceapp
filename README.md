@@ -1,8 +1,14 @@
 Запуск контейнеров:
 `docker-compose up -d`
 
+ВАЖНО Обновление миграций на бд:
+```
+$ docker-compose exec web python manage.py migrate
+$ docker-compose exec web architect partition --module balanceapp.transactions.models
+```
+
 Запуск тестов на запущенном контейнере:
-`docker-compose exec pytest -v`
+`docker-compose exec web pytest -v`
 
 Запросы API:
 
